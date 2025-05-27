@@ -6,6 +6,7 @@
   lib,
   libdisplay-info,
   libusb1,
+  lm_sensors,
   mesa-demos,
   mkKdeDerivation,
   pkg-config,
@@ -33,6 +34,7 @@ let
     lscpu = lib.getExe' util-linux "lscpu";
     pactl = lib.getExe' pulseaudio "pactl";
     qdbus = lib.getExe' qttools "qdbus";
+    sensors = lib.getExe lm_sensors;
     vulkaninfo = lib.getExe' vulkan-tools "vulkaninfo";
     waylandinfo = lib.getExe wayland-utils;
     xdpyinfo = lib.getExe xdpyinfo;
@@ -66,7 +68,7 @@ mkKdeDerivation {
   # the same directory, while it is actually located in a completely different
   # store path
   preFixup = ''
-    ln -sf ${systemsettings}/bin/systemsettings $out/bin/kinfocenter
+    ln -sf ${lib.getExe systemsettings} $out/bin/kinfocenter
   '';
 
   # Hardcoded as a QString, which is UTF-16 so Nix can't pick it up automatically
